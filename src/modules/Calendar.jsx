@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 import './Calendar.css';
 import CalendarGrid from './CalendarGrid';
 
 class Calendar extends Component {
-	state = {}
-	render() {
+	state = {
+		moods: []
+	}
+	formatMoods = (moods) => {
+		const moodByDate = moods.reduce((acc, mood) => {
+			if (!acc[mood.date]) {
+				acc[mood.date] = mood;
+			}
+			return acc;
+		}, {});
+		this.setState({ moods: moodByDate });
+	}
 
+	componentDidMount() {
+		const { moods } = this.props;
+		this.formatMoods(moods);
+	}
+
+	render() {
+		const { moods } = this.state;
 		return (
 			<div className="calendar-bg">
 				<div className="month-title"><p>September</p></div>
-
-				<CalendarGrid />
-
+				<CalendarGrid moods={moods} />
 			</div>
 		);
 	}

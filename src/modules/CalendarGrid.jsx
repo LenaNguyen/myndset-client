@@ -38,14 +38,28 @@ const useStyles = makeStyles(theme => ({
     fontWeight: '600',
     backgroundColor: 'transparent',
     boxShadow: 'none'
+  },
+  sad_colour: {
+    background: '#45BBCB',
+  },
+  neutral_colour: {
+    background: '#C195E2'
+  },
+  happy_colour: {
+    background: '#F77070'
+  },
+  mood: {
+    color: '#fff',
+    fontWeight: 'bold',
+    border: 'none'
   }
 }));
 
 const days = ['SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'];
 
-export default function CalendarGrid() {
+export default function CalendarGrid({ moods }) {
   const classes = useStyles();
-
+  console.log(moods);
   function RenderDays() {
     let weekItems = [];
     for (let i = 0; i < days.length; i++) {
@@ -65,9 +79,10 @@ export default function CalendarGrid() {
   function FormRowItems() {
     let rowItems = [];
     for (let i = 0; i < 30; i++) {
+      let itemClasses = styleDay(i + 1, [classes.paper]);
       rowItems.push(
         <Grid key={i} className={classes.rowItem} item xs={1.7}>
-          <Paper key={i} className={classes.paper}>{i + 1}</Paper>
+          <Paper key={i} className={itemClasses}>{i + 1}</Paper>
         </Grid>
       );
     }
@@ -93,6 +108,26 @@ export default function CalendarGrid() {
       curRow = [];
     }
     return rows;
+  }
+
+  function styleDay(num, dayClasses) {
+    if (moods[num]) {
+      switch (moods[num]['mood']) {
+        case 'happy':
+          dayClasses.push(classes.happy_colour);
+          break;
+        case 'neutral':
+          dayClasses.push(classes.neutral_colour);
+          break;
+        case 'upset':
+          dayClasses.push(classes.sad_colour);
+          break;
+        default:
+          return dayClasses
+      }
+      dayClasses.push(classes.mood);
+    }
+    return dayClasses;
   }
 
   return (
