@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import './SideBar.css';
 import { withStyles } from '@material-ui/core/styles';
 import todayicon from '../icons/today icon.svg';
